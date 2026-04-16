@@ -133,7 +133,7 @@ export function Viewport({
             />
             
             {/* Crop Overlay */}
-            {activeCategory === 'FRAMING' && (
+            {(activeCategory === 'FRAMING' || activeCategory === 'SOCIAL') && (
               <CropOverlay 
                 rect={settings.cropRect} 
                 onChange={handleCropChange} 

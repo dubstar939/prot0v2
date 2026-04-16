@@ -28,6 +28,7 @@ import { ExportButton } from '../ui/ExportButton';
 import { HistoryItem } from '../ui/HistoryItem';
 import { cn } from '../../lib/utils';
 import { ToolCategory, ToolSettings } from '../../../types';
+import { PRESETS, SOCIAL_PRESETS } from '../../constants';
 
 interface ControlsSidebarProps {
   isOpen: boolean;
@@ -139,6 +140,32 @@ export function ControlsSidebar({
             <ControlGroup label="Selective Edit" value={settings.selectiveEdit} min={0} max={100} onChange={(v) => updateSetting('selectiveEdit', v)} icon={BoxSelect} />
             <ControlGroup label="Sky Replace" value={settings.skyReplace} min={0} max={100} onChange={(v) => updateSetting('skyReplace', v)} icon={Cloud} />
             <ControlGroup label="Skin Cleanup" value={settings.skinCleanup} min={0} max={100} onChange={(v) => updateSetting('skinCleanup', v)} icon={User} />
+          </div>
+        );
+      case 'SOCIAL':
+        return (
+          <div className="space-y-3">
+            <div className="text-[10px] font-mono text-accent-muted uppercase tracking-widest mb-2">Platform Presets</div>
+            {SOCIAL_PRESETS.map(preset => (
+              <button
+                key={preset.id}
+                onClick={() => updateSetting('crop', preset.aspectRatio)}
+                className={cn(
+                  "w-full text-left p-3 rounded-lg border transition-all duration-200",
+                  settings.crop === preset.aspectRatio 
+                    ? "bg-accent text-bg border-accent" 
+                    : "bg-surface-hover border-border hover:border-accent-muted"
+                )}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="font-medium text-sm">{preset.label}</div>
+                  <div className="text-[10px] font-mono opacity-60">{preset.aspectRatio}</div>
+                </div>
+                <div className={cn("text-[10px] mt-1", settings.crop === preset.aspectRatio ? "text-bg/70" : "text-accent-muted")}>
+                  {preset.platform} • {preset.description}
+                </div>
+              </button>
+            ))}
           </div>
         );
       case 'EXPORT':

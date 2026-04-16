@@ -65,11 +65,12 @@ interface LayerItemProps {
 
 /**
  * A component representing a single layer in the layers list.
+ * Memoized to prevent unnecessary re-renders when other layers change.
  * 
  * @param {LayerItemProps} props - The component props.
  * @returns {JSX.Element} The rendered LayerItem component.
  */
-export const LayerItem: React.FC<LayerItemProps> = ({
+export const LayerItem = React.memo<LayerItemProps>(({
   layer,
   isActive,
   isSelected,
@@ -207,4 +208,4 @@ export const LayerItem: React.FC<LayerItemProps> = ({
       )}
     </div>
   );
-};
+});

@@ -7,7 +7,14 @@ interface SidebarProps {
   onModeSwitch: (mode: EditMode) => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeMode, onModeSwitch }) => {
+/**
+ * The main sidebar for switching between different editing modes.
+ * Memoized to prevent unnecessary re-renders when other UI elements change.
+ * 
+ * @param {SidebarProps} props - The component props.
+ * @returns {JSX.Element} The rendered Sidebar component.
+ */
+export const Sidebar = React.memo<SidebarProps>(({ activeMode, onModeSwitch }) => {
   const tools = [
     { mode: EditMode.GENERATE, icon: Sparkles, label: 'Neural' },
     { mode: EditMode.COLOR, icon: Sliders, label: 'Color' },
@@ -34,4 +41,4 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeMode, onModeSwitch }) =>
       ))}
     </aside>
   );
-};
+});

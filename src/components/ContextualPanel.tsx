@@ -26,7 +26,14 @@ interface ContextualPanelProps {
   onCancel: () => void;
 }
 
-export const ContextualPanel: React.FC<ContextualPanelProps> = ({
+/**
+ * The contextual panel that displays tools and settings based on the active mode.
+ * Memoized to prevent unnecessary re-renders when other UI elements change.
+ * 
+ * @param {ContextualPanelProps} props - The component props.
+ * @returns {JSX.Element} The rendered ContextualPanel component.
+ */
+export const ContextualPanel = React.memo<ContextualPanelProps>(({
   activeMode,
   activeLayerId,
   layers,
@@ -369,4 +376,4 @@ export const ContextualPanel: React.FC<ContextualPanelProps> = ({
       </div>
     </div>
   );
-};
+});

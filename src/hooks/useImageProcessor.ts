@@ -35,7 +35,7 @@ export function useImageProcessor() {
       exposure, contrast, saturation, sharpen, noiseReduction, whiteBalance, bokeh,
       paintGloss, wheelDetail, nightEnhance, reflectionClean, showroomFinish,
       bgSimplify, subjectPop, lowQualityRestore, reflectionReduction, glareReduction,
-      selectiveEdit, skyReplace, skinCleanup
+      selectiveEdit, skyReplace, skinCleanup, preset
     } = settings;
     
     let filters = [];
@@ -81,6 +81,25 @@ export function useImageProcessor() {
     if (selectiveEdit !== 0) filters.push(`contrast(${100 + selectiveEdit / 4}%)`);
     if (skyReplace !== 0) filters.push(`saturate(${100 + skyReplace / 4}%)`);
     if (skinCleanup !== 0) filters.push(`blur(${skinCleanup / 100}px)`);
+    
+    // Style Presets
+    if (preset === 'cyberpunk') {
+      filters.push('hue-rotate(300deg) saturate(200%) contrast(120%) brightness(110%)');
+    } else if (preset === 'oil_painting') {
+      filters.push('saturate(150%) contrast(110%) blur(0.5px)');
+    } else if (preset === 'sketch') {
+      filters.push('grayscale(100%) contrast(200%) brightness(120%)');
+    } else if (preset === 'coastal_minimalist') {
+      filters.push('saturate(80%) brightness(105%) sepia(10%)');
+    } else if (preset === 'high_contrast_street') {
+      filters.push('contrast(150%) saturate(120%)');
+    } else if (preset === 'film_939') {
+      filters.push('sepia(20%) saturate(110%) brightness(95%)');
+    } else if (preset === 'matte_fade') {
+      filters.push('contrast(90%) brightness(110%) saturate(90%)');
+    } else if (preset === 'vivid_pop') {
+      filters.push('saturate(130%) contrast(110%)');
+    }
     
     // Simulation of sharpen/noise reduction via contrast/blur
     if (sharpen > 0) filters.push(`contrast(${100 + sharpen / 2}%)`);

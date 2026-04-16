@@ -14,7 +14,14 @@ interface LayerPanelContentProps {
   onUpdateLayer: (id: string, updates: Partial<Layer>) => void;
 }
 
-export const LayerPanelContent: React.FC<LayerPanelContentProps> = ({
+/**
+ * The content area for the layers panel, including layer list and controls.
+ * Memoized to prevent unnecessary re-renders when other UI elements change.
+ * 
+ * @param {LayerPanelContentProps} props - The component props.
+ * @returns {JSX.Element} The rendered LayerPanelContent component.
+ */
+export const LayerPanelContent = React.memo<LayerPanelContentProps>(({
   layers,
   activeLayerId,
   onSelectLayer,
@@ -143,4 +150,4 @@ export const LayerPanelContent: React.FC<LayerPanelContentProps> = ({
       </div>
     </div>
   );
-};
+});

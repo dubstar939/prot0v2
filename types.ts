@@ -132,6 +132,7 @@ export type ToolCategory =
   | 'FRAMING' 
   | 'REPAIR' 
   | 'MASKING' 
+  | 'SOCIAL'
   | 'EXPORT';
 
 export interface ToolSettings {

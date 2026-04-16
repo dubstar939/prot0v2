@@ -24,7 +24,14 @@ interface WorkspaceProps {
   workspaceRef: React.RefObject<HTMLDivElement | null>;
 }
 
-export const Workspace: React.FC<WorkspaceProps> = ({
+/**
+ * The main workspace area where layers are rendered and manipulated.
+ * Memoized to prevent unnecessary re-renders when other UI elements change.
+ * 
+ * @param {WorkspaceProps} props - The component props.
+ * @returns {JSX.Element} The rendered Workspace component.
+ */
+export const Workspace = React.memo<WorkspaceProps>(({
   layers,
   activeLayerId,
   activeMode,
@@ -181,4 +188,4 @@ export const Workspace: React.FC<WorkspaceProps> = ({
       </div>
     </section>
   );
-};
+});

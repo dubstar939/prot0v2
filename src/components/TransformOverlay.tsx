@@ -35,28 +35,33 @@ export const TransformOverlay: React.FC<TransformOverlayProps> = ({ layer, onCha
   };
 
   useEffect(() => {
+    let rafId: number;
+
     const handleMove = (clientX: number, clientY: number) => {
       if (!isDragging || !imageRef.current) return;
       
       const dx = clientX - startPos.x;
       const dy = clientY - startPos.y;
 
-      if (dragType === 'move') {
-        onChange({
-          x: (startLayer.x || 0) + dx,
-          y: (startLayer.y || 0) + dy
-        });
-      } else if (dragType === 'scale') {
-        const scaleChange = dx / 100;
-        onChange({
-          scale: Math.max(0.1, (startLayer.scale || 1) + scaleChange)
-        });
-      } else if (dragType === 'rotate') {
-        const rotationChange = dx;
-        onChange({
-          rotation: (startLayer.rotation || 0) + rotationChange
-        });
-      }
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (dragType === 'move') {
+          onChange({
+            x: (startLayer.x || 0) + dx,
+            y: (startLayer.y || 0) + dy
+          });
+        } else if (dragType === 'scale') {
+          const scaleChange = dx / 100;
+          onChange({
+            scale: Math.max(0.1, (startLayer.scale || 1) + scaleChange)
+          });
+        } else if (dragType === 'rotate') {
+          const rotationChange = dx;
+          onChange({
+            rotation: (startLayer.rotation || 0) + rotationChange
+          });
+        }
+      });
     };
 
     const onMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY);
