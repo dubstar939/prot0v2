@@ -1,6 +1,6 @@
-# 🎨 Prot0 Creative Suite: Your Ultimate User's Guide
+# 🎨 NOVAPIX: Your Ultimate User's Guide
 
-Welcome to **Prot0 Creative Suite by 939Pro**! Whether you're a professional designer or just starting your creative journey, this suite is built to give you world-class editing power right in your browser.
+Welcome to **NOVAPIX by 939Pro**! Whether you're a professional designer or just starting your creative journey, this suite is built to give you world-class editing power right in your browser.
 
 ---
 
@@ -45,7 +45,7 @@ Take your projects further with our advanced composition engines:
 
 ## 📑 Mastering Layers
 
-Prot0 uses a professional layer-based system:
+NOVAPIX uses a professional layer-based system:
 
 *   **Visibility**: Toggle the 👁️ icon to hide/show layers.
 *   **Opacity**: Slide the bar to create subtle overlays.
@@ -70,7 +70,7 @@ Work faster with these essential hotkeys:
 
 ## 📲 Install as App
 
-You can now save **Prot0 Creative Suite** directly to your home screen or desktop for a true full-screen, native experience:
+You can now save **NOVAPIX** directly to your home screen or desktop for a true full-screen, native experience:
 1. Look for the **"Install App 📲"** button in the top header (it appears when your browser supports installation).
 2. Follow the prompt to add it to your device.
 3. Launch it anytime from your app drawer or home screen!
