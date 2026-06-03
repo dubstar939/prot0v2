@@ -21,14 +21,27 @@ import {
   Share2, 
   Printer, 
   Globe,
-  Zap
+  Zap,
+  Type,
+  LayoutGrid,
+  Scissors,
+  Wand2,
+  ImagePlus,
+  Palette as PaletteIcon,
+  Aperture,
+  SunDim,
+  Lightbulb,
+  CircleDot,
+  FishSymbol,
+  Layers,
+  CircleDashed
 } from 'lucide-react';
 import { ControlGroup } from '../ui/ControlGroup';
 import { ExportButton } from '../ui/ExportButton';
 import { HistoryItem } from '../ui/HistoryItem';
 import { cn } from '../../lib/utils';
 import { ToolCategory, ToolSettings } from '../../../types';
-import { PRESETS, SOCIAL_PRESETS } from '../../constants';
+import { PRESETS, SOCIAL_PRESETS, OPEN_SOURCE_FONTS, COLLAGE_LAYOUTS, OVERLAY_OPTIONS } from '../../constants';
 
 interface ControlsSidebarProps {
   isOpen: boolean;
@@ -174,6 +187,215 @@ export function ControlsSidebar({
             <ExportButton label="Social Ready" icon={Share2} description="Optimized for Instagram, TikTok, etc." />
             <ExportButton label="Print Ready" icon={Printer} description="High-resolution, CMYK profile." />
             <ExportButton label="Web Optimized" icon={Globe} description="Fast loading, small file size." />
+          </div>
+        );
+      case 'FONTS':
+        return (
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <label className="prot0-label text-xs font-mono uppercase tracking-widest">Font Family</label>
+              <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto custom-scrollbar">
+                {OPEN_SOURCE_FONTS.map(font => (
+                  <button
+                    key={font.id}
+                    onClick={() => updateSetting('selectedFont', font.id)}
+                    className={cn(
+                      "p-2 rounded border text-left transition-all",
+                      settings.selectedFont === font.id 
+                        ? "bg-accent text-bg border-accent" 
+                        : "bg-surface-hover border-border hover:border-accent-muted"
+                    )}
+                    style={{ fontFamily: font.family }}
+                  >
+                    <div className="text-xs font-medium truncate">{font.name}</div>
+                    <div className="text-[10px] opacity-60 capitalize">{font.category}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <ControlGroup label="Font Size" value={settings.fontSize} min={8} max={120} onChange={(v) => updateSetting('fontSize', v)} icon={Type} />
+            <div className="space-y-2">
+              <label className="prot0-label text-xs font-mono uppercase tracking-widest">Font Color</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={settings.fontColor}
+                  onChange={(e) => updateSetting('fontColor', e.target.value)}
+                  className="w-10 h-10 rounded border border-border cursor-pointer"
+                />
+                <span className="text-xs font-mono">{settings.fontColor}</span>
+              </div>
+            </div>
+            <ControlGroup label="Opacity" value={settings.fontOpacity} min={0} max={100} onChange={(v) => updateSetting('fontOpacity', v)} icon={Layers} />
+            <div className="space-y-2">
+              <label className="prot0-label text-xs font-mono uppercase tracking-widest">Text Content</label>
+              <textarea
+                value={settings.textContent}
+                onChange={(e) => updateSetting('textContent', e.target.value)}
+                placeholder="Enter your text..."
+                className="w-full bg-surface-hover border border-border rounded-lg p-3 text-sm resize-none focus:outline-none focus:border-accent"
+                rows={3}
+              />
+            </div>
+          </div>
+        );
+      case 'COLLAGE':
+        return (
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <label className="prot0-label text-xs font-mono uppercase tracking-widest">Layout</label>
+              <div className="grid grid-cols-2 gap-2">
+                {COLLAGE_LAYOUTS.map(layout => (
+                  <button
+                    key={layout.id}
+                    onClick={() => updateSetting('collageLayout', layout.id)}
+                    className={cn(
+                      "p-3 rounded border text-center transition-all",
+                      settings.collageLayout === layout.id 
+                        ? "bg-accent text-bg border-accent" 
+                        : "bg-surface-hover border-border hover:border-accent-muted"
+                    )}
+                  >
+                    <LayoutGrid size={16} className="mx-auto mb-1" />
+                    <div className="text-xs font-medium">{layout.name}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <ControlGroup label="Spacing" value={settings.collageSpacing} min={0} max={50} onChange={(v) => updateSetting('collageSpacing', v)} icon={LayoutGrid} />
+            <div className="space-y-2">
+              <label className="prot0-label text-xs font-mono uppercase tracking-widest">Background Color</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={settings.collageBgColor}
+                  onChange={(e) => updateSetting('collageBgColor', e.target.value)}
+                  className="w-10 h-10 rounded border border-border cursor-pointer"
+                />
+                <span className="text-xs font-mono">{settings.collageBgColor}</span>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="prot0-label text-xs font-mono uppercase tracking-widest">Add Images</label>
+              <button className="w-full py-3 border-2 border-dashed border-border rounded-lg text-accent-muted hover:border-accent hover:text-accent transition-colors flex items-center justify-center gap-2">
+                <ImagePlus size={16} />
+                <span className="text-sm">Drop or select images</span>
+              </button>
+              {settings.collageImages.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {settings.collageImages.map((img, idx) => (
+                    <div key={idx} className="relative w-16 h-16 rounded overflow-hidden border border-border">
+                      <img src={img} alt={`Collage ${idx}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      case 'CUTOUT':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <label className="prot0-label text-xs font-mono uppercase tracking-widest">Enable Cutout</label>
+              <button
+                onClick={() => updateSetting('cutoutEnabled', !settings.cutoutEnabled)}
+                className={cn(
+                  "w-12 h-6 rounded-full transition-colors relative",
+                  settings.cutoutEnabled ? "bg-accent" : "bg-border"
+                )}
+              >
+                <div className={cn(
+                  "absolute top-1 w-4 h-4 rounded-full bg-bg transition-transform",
+                  settings.cutoutEnabled ? "left-7" : "left-1"
+                )} />
+              </button>
+            </div>
+            {settings.cutoutEnabled && (
+              <>
+                <div className="space-y-2">
+                  <label className="prot0-label text-xs font-mono uppercase tracking-widest">Background Color</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={settings.bgColor}
+                      onChange={(e) => updateSetting('bgColor', e.target.value)}
+                      className="w-10 h-10 rounded border border-border cursor-pointer"
+                    />
+                    <span className="text-xs font-mono">{settings.bgColor}</span>
+                  </div>
+                </div>
+                <ControlGroup label="Background Blur" value={settings.bgBlur} min={0} max={100} onChange={(v) => updateSetting('bgBlur', v)} icon={CircleDashed} />
+                <div className="space-y-2">
+                  <label className="prot0-label text-xs font-mono uppercase tracking-widest">Custom Background Image</label>
+                  <button className="w-full py-3 border-2 border-dashed border-border rounded-lg text-accent-muted hover:border-accent hover:text-accent transition-colors flex items-center justify-center gap-2">
+                    <ImagePlus size={16} />
+                    <span className="text-sm">Select background image</span>
+                  </button>
+                </div>
+              </>
+            )}
+            <div className="p-4 bg-surface-hover rounded-lg border border-border">
+              <div className="text-xs font-mono text-accent-muted mb-2">Auto Cutout Info</div>
+              <p className="text-[10px] text-accent-muted leading-relaxed">
+                AI-powered subject detection will automatically isolate your subject. 
+                Enable cutout mode and choose a custom background or color to replace the original background.
+              </p>
+            </div>
+          </div>
+        );
+      case 'RESTORE':
+        return (
+          <div className="space-y-6">
+            <div className="text-[10px] font-mono text-accent-muted uppercase tracking-widest mb-2">Image Restoration</div>
+            <ControlGroup label="Deblur" value={settings.deblur} min={0} max={100} onChange={(v) => updateSetting('deblur', v)} icon={CircleDashed} />
+            <ControlGroup label="Denoise" value={settings.denoise} min={0} max={100} onChange={(v) => updateSetting('denoise', v)} icon={Aperture} />
+            <ControlGroup label="Dehaze" value={settings.dehaze} min={0} max={100} onChange={(v) => updateSetting('dehaze', v)} icon={SunDim} />
+            <div className="pt-4 border-t border-border">
+              <div className="p-4 bg-surface-hover rounded-lg border border-border">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles size={14} className="text-accent" />
+                  <span className="text-xs font-medium">AI Enhancement</span>
+                </div>
+                <p className="text-[10px] text-accent-muted leading-relaxed">
+                  Advanced neural networks analyze and restore image quality by reducing blur, removing noise, and clearing atmospheric haze.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'EFFECTS':
+        return (
+          <div className="space-y-6">
+            <div className="text-[10px] font-mono text-accent-muted uppercase tracking-widest mb-2">Creative Effects</div>
+            <ControlGroup label="Blur Tool" value={settings.blurTool} min={0} max={100} onChange={(v) => updateSetting('blurTool', v)} icon={CircleDashed} />
+            <ControlGroup label="Vignette" value={settings.vignette} min={0} max={100} onChange={(v) => updateSetting('vignette', v)} icon={CircleDot} />
+            <ControlGroup label="Light Hits" value={settings.lightHits} min={0} max={100} onChange={(v) => updateSetting('lightHits', v)} icon={Lightbulb} />
+            <ControlGroup label="HDR" value={settings.hdr} min={0} max={100} onChange={(v) => updateSetting('hdr', v)} icon={Sun} />
+            <ControlGroup label="Fisheye" value={settings.fisheye} min={0} max={100} onChange={(v) => updateSetting('fisheye', v)} icon={FishSymbol} />
+            <div className="pt-4 border-t border-border">
+              <label className="prot0-label text-xs font-mono uppercase tracking-widest mb-2 block">Overlay</label>
+              <div className="grid grid-cols-3 gap-2">
+                {OVERLAY_OPTIONS.map(overlay => (
+                  <button
+                    key={overlay.id}
+                    onClick={() => updateSetting('overlay', overlay.id)}
+                    className={cn(
+                      "p-2 rounded border text-center transition-all",
+                      settings.overlay === overlay.id 
+                        ? "bg-accent text-bg border-accent" 
+                        : "bg-surface-hover border-border hover:border-accent-muted"
+                    )}
+                  >
+                    <Layers size={14} className="mx-auto mb-1" />
+                    <div className="text-[10px] font-medium truncate">{overlay.name}</div>
+                  </button>
+                ))}
+              </div>
+              {settings.overlay && settings.overlay !== 'none' && (
+                <ControlGroup label="Overlay Opacity" value={settings.overlayOpacity} min={0} max={100} onChange={(v) => updateSetting('overlayOpacity', v)} icon={Layers} />
+              )}
+            </div>
           </div>
         );
       default:
