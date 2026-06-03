@@ -12,7 +12,7 @@ interface LogoProps {
 }
 
 /**
- * Renders the Prot0 Creative Suite logo.
+ * Renders the NOVAPIX logo.
  * 
  * @param {LogoProps} props - Component props.
  * @returns {JSX.Element} The rendered logo.
@@ -35,8 +35,8 @@ export const Logo: React.FC<LogoProps> = ({ className = "", condensed = false })
     {!condensed && (
       <div className="flex flex-col text-white font-sans">
         <div className="flex items-baseline gap-1">
-          <span className="text-xl font-black tracking-tighter leading-none">Prot0</span>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-fuchsia-400">Creative</span>
+          <span className="text-xl font-black tracking-tighter leading-none">NOVAPIX</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-fuchsia-400">by 939PRO</span>
         </div>
         <div className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 mt-0.5">939PRO APPS</div>
       </div>
