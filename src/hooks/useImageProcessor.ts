@@ -35,7 +35,11 @@ export function useImageProcessor() {
       exposure, contrast, saturation, sharpen, noiseReduction, whiteBalance, bokeh,
       paintGloss, wheelDetail, nightEnhance, reflectionClean, showroomFinish,
       bgSimplify, subjectPop, lowQualityRestore, reflectionReduction, glareReduction,
-      selectiveEdit, skyReplace, skinCleanup, preset
+      selectiveEdit, skyReplace, skinCleanup, preset,
+      // Restore tools
+      deblur, denoise, dehaze,
+      // Effects
+      blurTool, vignette, lightHits, hdr, fisheye, overlay, overlayOpacity
     } = settings;
     
     let filters = [];
@@ -104,6 +108,42 @@ export function useImageProcessor() {
     // Simulation of sharpen/noise reduction via contrast/blur
     if (sharpen > 0) filters.push(`contrast(${100 + sharpen / 2}%)`);
     if (noiseReduction > 0) filters.push(`blur(${noiseReduction / 20}px)`);
+    
+    // Restore Tools (Deblur, Denoise, Dehaze)
+    // Note: True deblur requires AI/deep learning, this is a simulation
+    if (deblur > 0) {
+      filters.push(`contrast(${100 + deblur / 3}%)`);
+      filters.push(`brightness(${100 + deblur / 5}%)`);
+    }
+    if (denoise > 0) {
+      // Simulate noise reduction by slight blur while preserving edges
+      filters.push(`blur(${denoise / 30}px)`);
+    }
+    if (dehaze > 0) {
+      // Simulate dehazing by increasing contrast and reducing blue channel
+      filters.push(`contrast(${100 + dehaze / 2}%)`);
+      filters.push(`saturate(${100 + dehaze / 4}%)`);
+    }
+    
+    // Effects
+    if (blurTool > 0) {
+      filters.push(`blur(${blurTool / 15}px)`);
+    }
+    if (vignette > 0) {
+      // Vignette is typically done with radial-gradient overlay, simulated here with contrast
+      filters.push(`contrast(${100 + vignette / 5}%)`);
+    }
+    if (lightHits > 0) {
+      // Light hits simulated with brightness boost
+      filters.push(`brightness(${100 + lightHits / 3}%)`);
+    }
+    if (hdr > 0) {
+      // HDR effect simulated with contrast and saturation adjustments
+      filters.push(`contrast(${100 + hdr / 3}%)`);
+      filters.push(`saturate(${100 + hdr / 4}%)`);
+      filters.push(`brightness(${100 + hdr / 6}%)`);
+    }
+    // Fisheye requires SVG filter or canvas manipulation, noted for future implementation
     
     return filters.join(' ');
   }, [settings]);

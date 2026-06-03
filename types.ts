@@ -133,7 +133,27 @@ export type ToolCategory =
   | 'REPAIR' 
   | 'MASKING' 
   | 'SOCIAL'
-  | 'EXPORT';
+  | 'EXPORT'
+  | 'FONTS'
+  | 'COLLAGE'
+  | 'CUTOUT'
+  | 'RESTORE'
+  | 'EFFECTS';
+
+export interface FontOption {
+  id: string;
+  name: string;
+  family: string;
+  category: 'serif' | 'sans-serif' | 'display' | 'handwriting' | 'monospace';
+}
+
+export interface CollageLayout {
+  id: string;
+  name: string;
+  rows: number;
+  cols: number;
+  cells: { row: number; col: number; rowspan?: number; colspan?: number }[];
+}
 
 export interface ToolSettings {
   // Core
@@ -175,6 +195,39 @@ export interface ToolSettings {
   selectiveEdit: number;
   skyReplace: number;
   skinCleanup: number;
+  
+  // Fonts
+  selectedFont: string | null;
+  fontSize: number;
+  fontColor: string;
+  fontOpacity: number;
+  textContent: string;
+  
+  // Collage
+  collageLayout: string | null;
+  collageImages: string[];
+  collageSpacing: number;
+  collageBgColor: string;
+  
+  // Cutout
+  cutoutEnabled: boolean;
+  bgColor: string;
+  bgImage: string | null;
+  bgBlur: number;
+  
+  // Restore (Deblur, Denoise, Dehaze)
+  deblur: number;
+  denoise: number;
+  dehaze: number;
+  
+  // Effects
+  blurTool: number;
+  vignette: number;
+  lightHits: number;
+  hdr: number;
+  fisheye: number;
+  overlay: string | null;
+  overlayOpacity: number;
 }
 
 export const DEFAULT_SETTINGS: ToolSettings = {
@@ -204,4 +257,32 @@ export const DEFAULT_SETTINGS: ToolSettings = {
   selectiveEdit: 0,
   skyReplace: 0,
   skinCleanup: 0,
+  // Fonts
+  selectedFont: null,
+  fontSize: 24,
+  fontColor: '#ffffff',
+  fontOpacity: 100,
+  textContent: '',
+  // Collage
+  collageLayout: null,
+  collageImages: [],
+  collageSpacing: 10,
+  collageBgColor: '#000000',
+  // Cutout
+  cutoutEnabled: false,
+  bgColor: '#ffffff',
+  bgImage: null,
+  bgBlur: 0,
+  // Restore
+  deblur: 0,
+  denoise: 0,
+  dehaze: 0,
+  // Effects
+  blurTool: 0,
+  vignette: 0,
+  lightHits: 0,
+  hdr: 0,
+  fisheye: 0,
+  overlay: null,
+  overlayOpacity: 50,
 };
