@@ -86,7 +86,7 @@ export function Viewport({
     <div 
       {...getRootProps()} 
       className={cn(
-        "flex-1 flex items-center justify-center p-8 transition-colors duration-300 relative",
+        "flex-1 flex items-center justify-center p-4 md:p-8 transition-colors duration-300 relative min-h-0",
         isDragActive ? "bg-accent/5" : "bg-bg"
       )}
     >
@@ -101,31 +101,31 @@ export function Viewport({
       <input {...getInputProps()} />
       
       {!image ? (
-        <div className="text-center space-y-4 max-w-md">
-          <div className="w-20 h-20 border-2 border-dashed border-border rounded-3xl flex items-center justify-center mx-auto text-accent-muted group-hover:border-accent transition-colors">
-            <ImageIcon size={32} />
+        <div className="text-center space-y-4 max-w-md px-4">
+          <div className="w-16 h-16 md:w-20 md:h-20 border-2 border-dashed border-border rounded-3xl flex items-center justify-center mx-auto text-accent-muted group-hover:border-accent transition-colors">
+            <ImageIcon size={28} className="md:w-8 md:h-8" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight">Drop your masterpiece</h2>
-            <p className="text-accent-muted text-sm mt-1">RAW, JPEG, PNG supported. Neural engine ready.</p>
+            <h2 className="text-lg md:text-xl font-bold tracking-tight">Drop your masterpiece</h2>
+            <p className="text-accent-muted text-xs md:text-sm mt-1">RAW, JPEG, PNG supported. Neural engine ready.</p>
           </div>
-          <button className="prot0-button prot0-button-primary mx-auto mt-4 px-8">
+          <button className="prot0-button prot0-button-primary mx-auto mt-4 px-6 md:px-8 py-2 md:py-2.5">
             Select File
           </button>
         </div>
       ) : (
-        <div className="relative group max-w-full max-h-full">
+        <div className="relative group max-w-full max-h-full w-full h-full flex items-center justify-center">
           <motion.div 
             layoutId="image-container"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="relative shadow-2xl rounded-sm overflow-hidden border border-border bg-surface"
+            className="relative shadow-2xl rounded-sm overflow-hidden border border-border bg-surface max-w-full max-h-full"
           >
             <img 
               ref={imageRef}
               src={image} 
               alt="Preview" 
-              className="max-w-full max-h-[75vh] object-contain transition-all duration-500"
+              className="max-w-full max-h-[60vh] md:max-h-[75vh] object-contain transition-all duration-500"
               style={{ 
                 filter: cssFilters,
                 transform: `rotate(${settings.straighten}deg) scale(${1 + Math.abs(settings.perspective) / 500})`
@@ -152,16 +152,16 @@ export function Viewport({
                   className="absolute inset-0 bg-bg/20 backdrop-blur-[2px] flex items-center justify-center z-10"
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <div className="w-12 h-12 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-                    <span className="text-[10px] font-mono tracking-[0.3em] uppercase animate-pulse">Neural Processing</span>
+                    <div className="w-10 h-10 md:w-12 md:h-12 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                    <span className="text-[8px] md:text-[10px] font-mono tracking-[0.3em] uppercase animate-pulse">Neural Processing</span>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </motion.div>
 
-          {/* Viewport Toolbar */}
-          <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-surface/90 backdrop-blur-md border border-border p-1.5 rounded-full shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {/* Viewport Toolbar - Hidden on mobile, shown on desktop hover */}
+          <div className="hidden md:block absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-surface/90 backdrop-blur-md border border-border p-1.5 rounded-full shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <ViewportTool icon={Undo2} label="Undo" />
             <ViewportTool icon={Redo2} label="Redo" />
             <div className="w-[1px] h-4 bg-border mx-1" />

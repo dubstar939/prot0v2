@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Settings2 } from 'lucide-react';
 import { useImageProcessor } from './src/hooks/useImageProcessor';
 import { Sidebar } from './src/components/layout/Sidebar';
 import { Header } from './src/components/layout/Header';
 import { Viewport } from './src/components/layout/Viewport';
 import { ControlsSidebar } from './src/components/layout/ControlsSidebar';
 import { StatusBar } from './src/components/layout/StatusBar';
+import MobileBottomSheet from './src/components/MobileBottomSheet';
 import { TOOL_CATEGORIES, PRESETS } from './src/constants';
 import { ToolCategory } from './types';
 
@@ -91,7 +92,7 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-bg text-accent font-sans overflow-hidden flex-col md:flex-row">
-      {/* Left Sidebar - Categories */}
+      {/* Left Sidebar - Categories (Bottom bar on mobile, left sidebar on desktop) */}
       <Sidebar 
         categories={TOOL_CATEGORIES} 
         activeCategory={activeCategory} 
@@ -99,7 +100,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative overflow-hidden">
+      <main className="flex-1 flex flex-col relative overflow-hidden min-w-0">
         <Header 
           mode={mode} 
           setMode={setMode} 
@@ -126,20 +127,48 @@ export default function App() {
         />
       </main>
 
-      {/* Right Sidebar - Controls */}
-      <ControlsSidebar 
-        isOpen={sidebarOpen}
-        setIsOpen={setSidebarOpen}
-        activeCategory={activeCategory}
-        settings={settings}
-        updateSetting={updateSetting}
-        presets={PRESETS}
-      />
+      {/* Right Sidebar - Controls (Hidden on mobile, use MobileBottomSheet instead) */}
+      <div className="hidden md:block">
+        <ControlsSidebar 
+          isOpen={sidebarOpen}
+          setIsOpen={setSidebarOpen}
+          activeCategory={activeCategory}
+          settings={settings}
+          updateSetting={updateSetting}
+          presets={PRESETS}
+        />
+      </div>
+
+      {/* Mobile controls trigger - shown only on mobile */}
+      <div className="md:hidden fixed bottom-20 right-4 z-40">
+        <button 
+          onClick={() => setSidebarOpen(true)}
+          className="w-12 h-12 bg-accent text-bg rounded-full shadow-lg flex items-center justify-center"
+        >
+          <Settings2 size={20} />
+        </button>
+      </div>
+
+      {/* Mobile Bottom Sheet for controls */}
+      <MobileBottomSheet 
+        isOpen={!sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        title="Controls"
+      >
+        <ControlsSidebar 
+          isOpen={true}
+          setIsOpen={setSidebarOpen}
+          activeCategory={activeCategory}
+          settings={settings}
+          updateSetting={updateSetting}
+          presets={PRESETS}
+        />
+      </MobileBottomSheet>
 
       {!sidebarOpen && (
         <button 
           onClick={() => setSidebarOpen(true)}
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-12 bg-surface border-l border-y border-border rounded-l-md flex items-center justify-center text-accent-muted hover:text-accent z-40"
+          className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-6 h-12 bg-surface border-l border-y border-border rounded-l-md items-center justify-center text-accent-muted hover:text-accent z-40"
         >
           <ChevronLeft size={16} />
         </button>

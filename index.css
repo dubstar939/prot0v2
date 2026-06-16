@@ -21,6 +21,18 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior: none;
+  /* Prevent text selection on touch devices */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in editable areas */
+input, textarea, [contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 /* Custom scrollbar for a technical feel */
@@ -94,5 +106,40 @@ body {
 @layer base {
   * {
     border-color: var(--line);
+  }
+}
+
+/* Mobile-first responsive utilities */
+@media (max-width: 768px) {
+  /* Ensure viewport takes full height on mobile */
+  html, body, #root {
+    height: 100%;
+    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  }
+  
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Make buttons and interactive elements touch-friendly */
+  button, .prot0-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Ensure sliders are usable on touch devices */
+  input[type="range"] {
+    min-height: 44px;
+  }
+  
+  /* Improve tap targets */
+  a, button, input, select, textarea {
+    touch-action: manipulation;
+  }
+  
+  /* Remove tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 }
