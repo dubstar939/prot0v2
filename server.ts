@@ -17,9 +17,20 @@ async function startServer() {
       appType: "spa",
     });
     app.use(vite.middlewares);
+    
+    // Serve service worker
+    app.get('/sw.js', (req, res) => {
+      res.sendFile(path.join(process.cwd(), 'sw.js'));
+    });
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
+    
+    // Serve service worker
+    app.get('/sw.js', (req, res) => {
+      res.sendFile(path.join(distPath, 'sw.js'));
+    });
+    
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
