@@ -26,7 +26,7 @@ export default function App() {
   } = useImageProcessor();
 
   const [activeCategory, setActiveCategory] = useState<ToolCategory>('CORE');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -151,7 +151,7 @@ export default function App() {
 
       {/* Mobile Bottom Sheet for controls */}
       <MobileBottomSheet 
-        isOpen={!sidebarOpen}
+        isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         title="Controls"
       >
@@ -165,12 +165,12 @@ export default function App() {
         />
       </MobileBottomSheet>
 
-      {!sidebarOpen && (
+      {sidebarOpen && (
         <button 
-          onClick={() => setSidebarOpen(true)}
-          className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-6 h-12 bg-surface border-l border-y border-border rounded-l-md items-center justify-center text-accent-muted hover:text-accent z-40"
+          onClick={() => setSidebarOpen(false)}
+          className="md:hidden fixed top-4 right-4 z-50 w-10 h-10 bg-surface border border-border rounded-full items-center justify-center text-accent-muted hover:text-accent shadow-lg"
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft size={20} className="rotate-180" />
         </button>
       )}
     </div>
