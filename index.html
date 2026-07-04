@@ -12,9 +12,28 @@
     <link rel="stylesheet" href="/index.css">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0A0A0A">
+    <!-- iOS Safari PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="NOVAPIX">
+    <link rel="apple-touch-icon" href="https://picsum.photos/seed/prot0/180/180">
 </head>
 <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
+    <script>
+        // Register service worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
